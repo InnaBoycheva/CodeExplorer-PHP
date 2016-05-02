@@ -1,0 +1,79 @@
+@import url(https://fonts.googleapis.com/css?family=Oswald);
+@import url(https://fonts.googleapis.com/css?family=Roboto);
+
+html, body {
+	height: 100%;
+}
+em, i {
+	font-style: italic;
+}
+strong, b {
+	font-weight: bold;
+}
+.row {
+	height: 100%;
+	margin: 0;
+}
+.row-eq-height {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display:         flex;
+}
+
+#proj_struct {
+	background: #61125f;
+	padding: 0 2%;
+	height: 100%;
+	color: #FFFFFF;
+	font-family: 'Roboto', sans-serif;
+}
+#proj_struct h1 {
+	font-family: 'Oswald', sans-serif;
+}
+#proj_struct a {
+	color: #FFF;
+}
+#proj_struct .func_results li a {
+	color: #07C;
+}
+#code_area {
+	height: 100%;
+	margin: 0;
+}
+#proj_struct ul {
+	padding-left: 10%;
+}
+#proj_struct ul li {
+	list-style-image: url('../images/folder-icon.png')
+}
+#proj_struct ul ul {
+	padding-left: 7%;
+}
+#proj_struct ul li ul li, .func_results li {
+	list-style-type: disc;
+	list-style-image: none !important;
+}
+.s-results {
+	margin: 5% 0;
+    color: #000;
+    background: #ebebeb;
+    opacity: 0.9;
+    padding: 3% 2%;
+    border-radius: 4px;
+}
+.f_name {
+    font-size: 23px;
+    float: right;
+    margin-right: 1%;
+    font-family: 'Roboto', sans-serif;
+}
+.line {
+	font-size: 14px;
+}
+.line.alt-row {
+    background: #EBEBEB;
+}
+.line span {
+    margin-right: 1%;
+}
