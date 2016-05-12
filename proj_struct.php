@@ -2,13 +2,16 @@
 
    include 'DB.php';
 
-   mysql_connect( $host, $username, $password ) or die( 'Could not connect to server.' );
-   mysql_select_db( $db ) or die( 'Could not select database.' );
+   // Connect to DB
+   $link = mysqli_connect( $host, $username, $password, $db ) or die( 'Could not connect to server.' );
+   mysqli_select_db( $link, $db ) or die( 'Could not select database.' );
 
+   // Select all projects existing in the DB
    $query = "SELECT * FROM projects";
-   $res = mysql_query( $query );
+   $res = mysqli_query( $link, $query );
 
-   if( mysql_num_rows( $res ) == 0 ) {
+   // If no projects exist display appropriate message
+   if( mysqli_num_rows( $res ) == 0 ) {
       echo 'No projects exist in DB.';
       return;
    }
@@ -16,21 +19,24 @@
    $files = array();
    $radio_labels = array();
 
+   // Output project structure(s) section
    echo '<h1>Code Explorer</h1>';
    echo '<div class="files_container">';
    echo '<p id="proj-title">Select a project:</p>';
-   while ( $row = mysql_fetch_assoc( $res ) ) {
+   
+   while ( $row = mysqli_fetch_assoc( $res ) ) {
       $proj_id = $row['id'];
       $proj_name = pathinfo( $row['base_path'] )['filename'];
       echo '<ul>';
       echo '<li class="folder_li"><a href="#">' . $proj_name . '</a><ul>';
       $radio_labels[$proj_id] = $proj_name;
-      $query = "SELECT * FROM files_" . $proj_id;
-      $res_sub = mysql_query( $query );
-      while ( $row_sub = mysql_fetch_assoc( $res_sub ) ) {
+      $query = "SELECT * FROM files_" . $proj_id . " ORDER BY name ASC";
+      $res_sub = mysqli_query( $link, $query );
+
+      while ( $row_sub = mysqli_fetch_assoc( $res_sub ) ) {
          $file_id = $row_sub['id'];
          echo '<li><a href="#" class="' . $proj_id . '_' . $file_id . '">' . $row_sub['name'] . '</a></li>';
-         $files[$file_id] = $row_sub['name'];
+         $files[$proj_id][$file_id] = $row_sub['name'];
       }
       echo '</ul></li></ul>';
    }
@@ -42,7 +48,7 @@
 
    <hr noshade="noshade">
    <div id="proj_options">
-      <a data-toggle="collapse" data-target="#options">Project Options &gt;</a>
+      <button data-toggle="collapse" data-target="#options" class="btn btn-default proj_opt">Project Options &gt;</button>
       <div id="options" class="collapse">
          <div class="radio">
            <label>
@@ -70,5 +76,6 @@
    </div>
 
 <?php
-   mysql_close();
+   // Close the opened DB connection
+   mysqli_close( $link );
 ?>
